@@ -85,6 +85,16 @@ document.addEventListener("DOMContentLoaded", () => {
   navLoginBtn.addEventListener("click", showLogin);
   continueFarmerBtn.addEventListener("click", showLogin);
 
+  window.addEventListener("scroll", () => {
+    const nav = document.querySelector("nav");
+    if (!nav) return;
+    if (window.scrollY > 30) {
+      nav.classList.add("scrolled");
+    } else {
+      nav.classList.remove("scrolled");
+    }
+  });
+
   // ---------- NAV SMOOTH SCROLL ----------
   document.querySelectorAll("nav ul a[href^='#']").forEach((link) => {
     link.addEventListener("click", (e) => {
