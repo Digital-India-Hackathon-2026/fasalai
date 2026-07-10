@@ -1,622 +1,737 @@
-// ============================================================
-// Smart Farmer Portal — Multi-Step Navigation & PostgreSQL Database Engine
-// ============================================================
+// script.js
 
-// Global user state
-let currentUser = null;
-
-// File Upload base64 caches
-const fileCaches = {
-  aadharPic: "",
-  panPic: "",
-  proofPics: [],
-  insuranceDoc: "",
-  landDocs: "",
-  leaseDeed: "",
-  certificates: [],
-  salesReceipts: []
-};
-
-// ---------- Section Navigation ----------
-function hideAll() {
-  document.getElementById("landing").classList.add("hidden");
-  document.getElementById("farmerLogin").classList.add("hidden");
-  document.getElementById("farmerForm").classList.add("hidden");
-  document.getElementById("farmerDashboard").classList.add("hidden");
+// ---------- POPUP HANDLING (About / How / FAQ / Contact) ----------
+function openPopup(id) {
+  const popup = document.getElementById(id);
+  if (popup) {
+    popup.style.display = "block";
+  }
 }
 
-function scrollTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function closePopup(id) {
+  const popup = document.getElementById(id);
+  if (popup) {
+    popup.style.display = "none";
+  }
 }
+
+// Close popup on outside click
+window.addEventListener("click", (e) => {
+  const popups = document.querySelectorAll(".popup");
+  popups.forEach((popup) => {
+    if (e.target === popup) {
+      popup.style.display = "none";
+    }
+  });
+});
+
+// ---------- GENERAL VIEW TOGGLING ----------
+const landingSection = document.getElementById("landing");
+const loginSection = document.getElementById("farmerLogin");
+const homeSection = document.getElementById("farmerHome");
+const formSection = document.getElementById("farmerForm");
+const dashboardSection = document.getElementById("farmerDashboard");
 
 function showLanding() {
-  hideAll();
-  document.getElementById("landing").classList.remove("hidden");
-  scrollTop();
+  landingSection.classList.remove("hidden");
+  loginSection.classList.add("hidden");
+  homeSection.classList.add("hidden");
+  formSection.classList.add("hidden");
+  dashboardSection.classList.add("hidden");
 }
 
-function showFarmerLogin() {
-  hideAll();
-  document.getElementById("farmerLogin").classList.remove("hidden");
-  scrollTop();
+function showLogin() {
+  landingSection.classList.add("hidden");
+  loginSection.classList.remove("hidden");
+  homeSection.classList.add("hidden");
+  formSection.classList.add("hidden");
+  dashboardSection.classList.add("hidden");
 }
 
-function showFarmerForm() {
-  hideAll();
-  document.getElementById("farmerForm").classList.remove("hidden");
-  resetFormWizard();
-  scrollTop();
+function showHome() {
+  landingSection.classList.add("hidden");
+  loginSection.classList.add("hidden");
+  homeSection.classList.remove("hidden");
+  formSection.classList.add("hidden");
+  dashboardSection.classList.add("hidden");
+}
+
+function showForm() {
+  landingSection.classList.add("hidden");
+  loginSection.classList.add("hidden");
+  homeSection.classList.add("hidden");
+  formSection.classList.remove("hidden");
+  dashboardSection.classList.add("hidden");
 }
 
 function showDashboard() {
-  hideAll();
-  document.getElementById("farmerDashboard").classList.remove("hidden");
-  scrollTop();
+  landingSection.classList.add("hidden");
+  loginSection.classList.add("hidden");
+  homeSection.classList.add("hidden");
+  formSection.classList.add("hidden");
+  dashboardSection.classList.remove("hidden");
 }
 
-// ---------- Form Wizard State Machine ----------
-let currentStep = 1;
-const totalSteps = 4;
+// ---------- LOGIN LOGIC ----------
+document.addEventListener("DOMContentLoaded", () => {
+  const navLoginBtn = document.getElementById("navLoginBtn");
+  const continueFarmerBtn = document.getElementById("continueFarmerBtn");
+  const loginSubmitBtn = document.getElementById("loginSubmitBtn");
+  const loginUsernameInput = document.getElementById("loginUsername");
+  const loginPasswordInput = document.getElementById("loginPassword");
+  const homeWelcomeText = document.getElementById("homeWelcomeText");
+  const dropdownUserLine = document.getElementById("dropdownUserLine");
 
-function resetFormWizard() {
-  currentStep = 1;
-  updateWizardUI();
-}
+  navLoginBtn.addEventListener("click", showLogin);
+  continueFarmerBtn.addEventListener("click", showLogin);
 
-function updateWizardUI() {
-  // Update Step Panes
-  for (let i = 1; i <= totalSteps; i++) {
-    const pane = document.getElementById(`stepPane${i}`);
-    if (i === currentStep) {
-      pane.classList.remove("hidden");
+  loginSubmitBtn.addEventListener("click", () => {
+    const username = loginUsernameInput.value.trim();
+    const password = loginPasswordInput.value.trim();
+
+    // Demo credentials from your HTML
+    if (username === "9876543210" && password === "password") {
+      showHome();
+      homeWelcomeText.textContent = "Welcome back, Demo Farmer!";
+      dropdownUserLine.textContent = "Logged in: " + username;
     } else {
-      pane.classList.add("hidden");
+      alert("Invalid credentials. Use 9876543210 / password for demo.");
     }
+  });
 
-    // Update Stepper Indicators
-    const indicator = document.getElementById(`stepIndicator${i}`);
-    const line = document.getElementById(`stepLine${i}`);
-    const numEl = indicator.querySelector(".step-num");
-    const labelEl = indicator.querySelector(".step-label");
+  // ---------- PROFILE DROPDOWN ----------
+  const profileIconBtn = document.getElementById("profileIconBtn");
+  const profileDropdown = document.getElementById("profileDropdown");
+  const menuPersonalDetails = document.getElementById("menuPersonalDetails");
+  const menuSettings = document.getElementById("menuSettings");
+  const menuHelp = document.getElementById("menuHelp");
+  const menuLogout = document.getElementById("menuLogout");
 
-    if (i === currentStep) {
-      indicator.style.opacity = "1";
-      numEl.style.background = "#146c43";
-      numEl.style.color = "white";
-      labelEl.style.color = "#146c43";
-    } else if (i < currentStep) {
-      indicator.style.opacity = "1";
-      numEl.style.background = "#198754";
-      numEl.style.color = "white";
-      labelEl.style.color = "#198754";
-    } else {
-      indicator.style.opacity = "0.5";
-      numEl.style.background = "#cbd5e1";
-      numEl.style.color = "#475569";
-      labelEl.style.color = "#64748b";
+  profileIconBtn.addEventListener("click", () => {
+    profileDropdown.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (
+      !profileDropdown.contains(e.target) &&
+      e.target !== profileIconBtn
+    ) {
+      profileDropdown.classList.add("hidden");
     }
+  });
 
-    // Colors of stepper lines
-    if (line) {
-      if (i < currentStep) {
-        line.style.background = "#198754";
-      } else {
-        line.style.background = "#cbd5e1";
-      }
-    }
+  menuLogout.addEventListener("click", () => {
+    showLanding();
+    profileDropdown.classList.add("hidden");
+  });
+
+  // ---------- DASHBOARD PANELS ----------
+  const homeMainContent = document.getElementById("homeMainContent");
+  const personalDetailsView = document.getElementById("personalDetailsView");
+  const personalDetailsForm = document.getElementById("personalDetailsForm");
+  const settingsPanel = document.getElementById("settingsPanel");
+  const helpPanel = document.getElementById("helpPanel");
+  const searchPanel = document.getElementById("searchPanel");
+
+  const qaPersonalDetails = document.getElementById("qaPersonalDetails");
+  const qaAssessment = document.getElementById("qaAssessment");
+  const qaSearchOther = document.getElementById("qaSearchOther");
+  const goToAssessmentBtn = document.getElementById("goToAssessmentBtn");
+
+  const backFromDetailsViewBtn = document.getElementById("backFromDetailsViewBtn");
+  const cancelPersonalDetailsBtn = document.getElementById("cancelPersonalDetailsBtn");
+  const editPersonalDetailsBtn = document.getElementById("editPersonalDetailsBtn");
+  const backFromSettingsBtn = document.getElementById("backFromSettingsBtn");
+  const backFromHelpBtn = document.getElementById("backFromHelpBtn");
+
+  const menuPersonalDetailsBtn = document.getElementById("menuPersonalDetails");
+  const menuSettingsBtn = document.getElementById("menuSettings");
+  const menuHelpBtn = document.getElementById("menuHelp");
+
+  function showDashboardMain() {
+    homeMainContent.classList.remove("hidden");
+    personalDetailsView.classList.add("hidden");
+    personalDetailsForm.classList.add("hidden");
+    settingsPanel.classList.add("hidden");
+    helpPanel.classList.add("hidden");
+    searchPanel.classList.add("hidden");
   }
 
-  // Update Buttons
+  // From top menu
+  menuPersonalDetailsBtn.addEventListener("click", () => {
+    profileDropdown.classList.add("hidden");
+    homeMainContent.classList.add("hidden");
+    personalDetailsView.classList.remove("hidden");
+  });
+
+  menuSettingsBtn.addEventListener("click", () => {
+    profileDropdown.classList.add("hidden");
+    homeMainContent.classList.add("hidden");
+    settingsPanel.classList.remove("hidden");
+  });
+
+  menuHelpBtn.addEventListener("click", () => {
+    profileDropdown.classList.add("hidden");
+    homeMainContent.classList.add("hidden");
+    helpPanel.classList.remove("hidden");
+  });
+
+  // From quick actions
+  qaPersonalDetails.addEventListener("click", () => {
+    homeMainContent.classList.add("hidden");
+    personalDetailsView.classList.remove("hidden");
+  });
+
+  qaAssessment.addEventListener("click", () => {
+    showForm();
+  });
+
+  qaSearchOther.addEventListener("click", () => {
+    homeMainContent.classList.add("hidden");
+    searchPanel.classList.remove("hidden");
+  });
+
+  goToAssessmentBtn.addEventListener("click", () => {
+    showForm();
+  });
+
+  backFromDetailsViewBtn.addEventListener("click", showDashboardMain);
+  cancelPersonalDetailsBtn.addEventListener("click", showDashboardMain);
+  backFromSettingsBtn.addEventListener("click", showDashboardMain);
+  backFromHelpBtn.addEventListener("click", showDashboardMain);
+
+  editPersonalDetailsBtn.addEventListener("click", () => {
+    personalDetailsView.classList.add("hidden");
+    personalDetailsForm.classList.remove("hidden");
+  });
+
+  // ---------- PERSONAL DETAILS SAVE / DISPLAY ----------
+  const savePersonalDetailsBtn = document.getElementById("savePersonalDetailsBtn");
+  const personalDetailsDisplay = document.getElementById("personalDetailsDisplay");
+
+  const pdFullName = document.getElementById("pdFullName");
+  const pdAge = document.getElementById("pdAge");
+  const pdMobile = document.getElementById("pdMobile");
+  const pdEmail = document.getElementById("pdEmail");
+  const pdAddress = document.getElementById("pdAddress");
+  const pdVillage = document.getElementById("pdVillage");
+  const pdState = document.getElementById("pdState");
+
+  savePersonalDetailsBtn.addEventListener("click", () => {
+    const details = {
+      fullName: pdFullName.value.trim(),
+      age: pdAge.value.trim(),
+      mobile: pdMobile.value.trim(),
+      email: pdEmail.value.trim(),
+      address: pdAddress.value.trim(),
+      village: pdVillage.value.trim(),
+      state: pdState.value.trim(),
+    };
+
+    if (!details.fullName || !details.age || !details.mobile || !details.address || !details.village || !details.state) {
+      alert("Please fill all required (*) fields.");
+      return;
+    }
+
+    // Simple display of saved details
+    personalDetailsDisplay.innerHTML = `
+      <div class="detail-item"><span class="detail-label">Name</span><span class="detail-value">${details.fullName}</span></div>
+      <div class="detail-item"><span class="detail-label">Age</span><span class="detail-value">${details.age}</span></div>
+      <div class="detail-item"><span class="detail-label">Mobile</span><span class="detail-value">${details.mobile}</span></div>
+      <div class="detail-item"><span class="detail-label">Email</span><span class="detail-value">${details.email || "-"}</span></div>
+      <div class="detail-item"><span class="detail-label">Address</span><span class="detail-value">${details.address}</span></div>
+      <div class="detail-item"><span class="detail-label">Village / Town</span><span class="detail-value">${details.village}</span></div>
+      <div class="detail-item"><span class="detail-label">State</span><span class="detail-value">${details.state}</span></div>
+    `;
+
+    personalDetailsForm.classList.add("hidden");
+    personalDetailsView.classList.remove("hidden");
+  });
+
+  // ---------- SEARCH OTHER FARMERS (DEMO) ----------
+  const searchIconBtn = document.getElementById("searchIconBtn");
+  const closeSearchBtn = document.getElementById("closeSearchBtn");
+  const farmerSearchInput = document.getElementById("farmerSearchInput");
+  const searchResults = document.getElementById("searchResults");
+
+  const demoFarmers = [
+    { name: "Ramesh", village: "Nalgonda", crop: "Paddy", score: 72 },
+    { name: "Sita", village: "Warangal", crop: "Cotton", score: 65 },
+    { name: "Mahesh", village: "Karimnagar", crop: "Maize", score: 80 },
+  ];
+
+  searchIconBtn.addEventListener("click", () => {
+    homeMainContent.classList.add("hidden");
+    searchPanel.classList.remove("hidden");
+  });
+
+  closeSearchBtn.addEventListener("click", () => {
+    showDashboardMain();
+  });
+
+  farmerSearchInput.addEventListener("input", () => {
+    const q = farmerSearchInput.value.toLowerCase();
+    const filtered = demoFarmers.filter(
+      (f) =>
+        f.name.toLowerCase().includes(q) ||
+        f.village.toLowerCase().includes(q) ||
+        f.crop.toLowerCase().includes(q)
+    );
+
+    if (!q) {
+      searchResults.innerHTML =
+        "<p style='padding: 8px; color:#666;'>Type to search farmer records.</p>";
+      return;
+    }
+
+    if (filtered.length === 0) {
+      searchResults.innerHTML =
+        "<p style='padding: 8px; color:#666;'>No matching farmers found.</p>";
+      return;
+    }
+
+    searchResults.innerHTML = filtered
+      .map(
+        (f) =>
+          `<div class="search-row">
+            <strong>${f.name}</strong> – ${f.village} – ${f.crop} – Capability Score: ${f.score}
+          </div>`
+      )
+      .join("");
+  });
+
+  // ---------- MULTI-STEP CAPABILITY FORM WIZARD ----------
+  const capabilityForm = document.getElementById("capabilityForm");
+  const stepPane1 = document.getElementById("stepPane1");
+  const stepPane2 = document.getElementById("stepPane2");
+  const stepPane3 = document.getElementById("stepPane3");
+  const stepPane4 = document.getElementById("stepPane4");
+
+  const stepIndicator1 = document.getElementById("stepIndicator1");
+  const stepIndicator2 = document.getElementById("stepIndicator2");
+  const stepIndicator3 = document.getElementById("stepIndicator3");
+  const stepIndicator4 = document.getElementById("stepIndicator4");
+  const stepLine1 = document.getElementById("stepLine1");
+  const stepLine2 = document.getElementById("stepLine2");
+  const stepLine3 = document.getElementById("stepLine3");
+
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
   const submitBtn = document.getElementById("submitBtn");
 
-  if (currentStep === 1) {
-    prevBtn.classList.add("hidden");
-  } else {
-    prevBtn.classList.remove("hidden");
-  }
+  let currentStep = 1;
 
-  if (currentStep === totalSteps) {
-    nextBtn.classList.add("hidden");
-    submitBtn.classList.remove("hidden");
-  } else {
-    nextBtn.classList.remove("hidden");
-    submitBtn.classList.add("hidden");
-  }
-  
-  scrollTop();
-}
+  function updateStepView() {
+    // Pane visibility
+    stepPane1.classList.toggle("hidden", currentStep !== 1);
+    stepPane2.classList.toggle("hidden", currentStep !== 2);
+    stepPane3.classList.toggle("hidden", currentStep !== 3);
+    stepPane4.classList.toggle("hidden", currentStep !== 4);
 
-// Validate inputs inside current step pane
-function validateCurrentStep() {
-  const currentPane = document.getElementById(`stepPane${currentStep}`);
-  const inputs = currentPane.querySelectorAll("input[required], select[required]");
-  
-  for (let input of inputs) {
-    // If input is inside a hidden wrapper, don't validate it
-    let parent = input.parentElement;
-    let isHidden = false;
-    while (parent) {
-      if (parent.classList.contains("hidden")) {
-        isHidden = true;
-        break;
+    // Stepper styles
+    const activeColor = "#146c43";
+    const inactiveColor = "#cbd5e1";
+
+    [stepIndicator1, stepIndicator2, stepIndicator3, stepIndicator4].forEach(
+      (indicator, index) => {
+        const stepNum = indicator.querySelector(".step-num");
+        const stepLabel = indicator.querySelector(".step-label");
+        const stepIndex = index + 1;
+        if (stepIndex <= currentStep) {
+          indicator.style.opacity = "1";
+          stepNum.style.background = activeColor;
+          stepNum.style.color = "#ffffff";
+          stepLabel.style.color = activeColor;
+        } else {
+          indicator.style.opacity = "0.5";
+          stepNum.style.background = inactiveColor;
+          stepNum.style.color = "#475569";
+          stepLabel.style.color = "#64748b";
+        }
       }
-      parent = parent.parentElement;
-    }
-    
-    if (isHidden) continue;
+    );
 
-    if (!input.value.trim()) {
-      input.reportValidity();
-      return false;
-    }
-    
-    // Pattern or min/max matching
-    if (!input.checkValidity()) {
-      input.reportValidity();
-      return false;
-    }
-    
-    // File inputs check
-    if (input.type === "file" && input.files.length === 0) {
-      // Check if we already have it in cache
-      const cacheKey = input.id;
-      if (!fileCaches[cacheKey] || (Array.isArray(fileCaches[cacheKey]) && fileCaches[cacheKey].length === 0)) {
-        alert(`Please upload the required file: ${input.previousElementSibling ? input.previousElementSibling.textContent : "Document"}`);
-        return false;
-      }
-    }
-  }
-  return true;
-}
+    [stepLine1, stepLine2, stepLine3].forEach((line, index) => {
+      line.style.background =
+        currentStep > index + 1 ? activeColor : "#cbd5e1";
+    });
 
-// Helper to convert File to Base64
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-    reader.readAsDataURL(file);
-  });
-}
-
-// ---------- Helpers ----------
-
-// Animate the score counting up
-function animateScore(el, target, duration = 900) {
-  const start = 0;
-  const startTime = performance.now();
-
-  function tick(now) {
-    const progress = Math.min((now - startTime) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-    const value = Math.round(start + (target - start) * eased);
-    el.textContent = value;
-    if (progress < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-// Builds (or reuses) a skill-breakdown block inside the dashboard
-function renderBreakdown(parts) {
-  let wrap = document.getElementById("skillBreakdown");
-  if (!wrap) {
-    wrap = document.createElement("div");
-    wrap.id = "skillBreakdown";
-    wrap.className = "dashboard-details";
-    wrap.style.marginTop = "20px";
-    const heading = document.getElementById("farmerDashboard").querySelector("h2");
-    heading.insertAdjacentElement("afterend", wrap);
-  }
-
-  wrap.innerHTML = `<h3>Skill Breakdown</h3>` + parts.map(p => `
-    <div style="margin-bottom:14px;">
-      <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;">
-        <span>${p.label}</span>
-        <span style="font-weight:600;color:#146c43;">${p.score}/${p.max}</span>
-      </div>
-      <div style="background:#e9ecef;border-radius:8px;height:10px;overflow:hidden;">
-        <div style="width:${(p.score / p.max) * 100}%;background:#198754;height:100%;border-radius:8px;transition:width 0.9s ease;"></div>
-      </div>
-    </div>
-  `).join("");
-}
-
-// Personalized greeting line above the score
-function renderGreeting(name, ownershipType) {
-  let greet = document.getElementById("farmerGreeting");
-  const dashboardSection = document.getElementById("farmerDashboard");
-
-  if (!greet) {
-    greet = document.createElement("p");
-    greet.id = "farmerGreeting";
-    greet.style.fontSize = "16px";
-    greet.style.color = "#146c43";
-    greet.style.fontWeight = "600";
-    greet.style.marginTop = "6px";
-    const firstP = dashboardSection.querySelector("p");
-    firstP.insertAdjacentElement("afterend", greet);
-  }
-
-  const displayName = name && name.trim() ? name.trim() : "Farmer";
-  const roleNote = ownershipType === "lease"
-    ? " — as a tenant farmer, your leasing credibility and skill-based metrics bypass conventional collateral rules!"
-    : " — as a verified landowner, your skill metrics fast-track you for optimum lending tiers.";
-  greet.textContent = `Welcome, ${displayName}!${roleNote}`;
-}
-
-// Helper to render historic evaluations on the dashboard
-function renderHistoryList(history) {
-  let historyWrap = document.getElementById("evaluationHistory");
-  if (!historyWrap) {
-    historyWrap = document.createElement("div");
-    historyWrap.id = "evaluationHistory";
-    historyWrap.className = "dashboard-details";
-    historyWrap.style.marginTop = "20px";
-    const dashboardSection = document.getElementById("farmerDashboard");
-    dashboardSection.appendChild(historyWrap);
-  }
-
-  if (!history || history.length === 0) {
-    historyWrap.innerHTML = `<h3>Database Activity Log</h3><p style="color: #666; font-size: 13px;">No past profiles saved in database yet.</p>`;
-    return;
-  }
-
-  historyWrap.innerHTML = `<h3>Your Database Profile History</h3>` + history.map((h, index) => `
-    <div style="border-bottom: 1px solid #ddd; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
-      <div>
-        <strong>${h.primaryCrop}</strong> (${h.landHolding} Acres)
-        <br>
-        <span style="color:#666; font-size:11px;">Saved: ${new Date(h.createdAt).toLocaleString()}</span>
-      </div>
-      <div style="text-align: right;">
-        <span style="font-weight: 700; color: #198754;">Score: ${h.finalScore}</span>
-        <br>
-        <span style="font-size: 11px; background: #e2efe2; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 2px;">${h.tier.split(":")[0]}</span>
-      </div>
-    </div>
-  `).join("");
-}
-
-// ---------- App Init ----------
-document.addEventListener("DOMContentLoaded", () => {
-
-  // Navigation events
-  document.getElementById("continueFarmerBtn").addEventListener("click", showFarmerLogin);
-  document.getElementById("navLoginBtn").addEventListener("click", showFarmerLogin);
-
-  // Setup live conditional UI handlers
-  
-  // 1. Ownership conditional triggers
-  const ownershipSelect = document.getElementById("ownershipType");
-  const leaseDeedWrapper = document.getElementById("leaseDeedWrapper");
-  const leaseDeedInput = document.getElementById("leaseDeed");
-  const landDocsLabel = document.getElementById("landDocsLabel");
-
-  ownershipSelect.addEventListener("change", () => {
-    if (ownershipSelect.value === "lease") {
-      leaseDeedWrapper.classList.remove("hidden");
-      leaseDeedInput.setAttribute("required", "required");
-      landDocsLabel.textContent = "Upload Land Records / Lease Owner Documents *";
+    // Buttons
+    if (currentStep === 1) {
+      prevBtn.classList.add("hidden");
+      nextBtn.classList.remove("hidden");
+      submitBtn.classList.add("hidden");
+      nextBtn.textContent = "Next Step";
+    } else if (currentStep === 4) {
+      prevBtn.classList.remove("hidden");
+      nextBtn.classList.add("hidden");
+      submitBtn.classList.remove("hidden");
     } else {
-      leaseDeedWrapper.classList.add("hidden");
-      leaseDeedInput.removeAttribute("required");
-      landDocsLabel.textContent = "Upload Land Records (Khata/Fard/7-12) *";
+      prevBtn.classList.remove("hidden");
+      nextBtn.classList.remove("hidden");
+      submitBtn.classList.add("hidden");
+      nextBtn.textContent = "Next Step";
+    }
+  }
+
+  function validateCurrentStep() {
+    // Simple required validation per step
+    let valid = true;
+
+    if (currentStep === 1) {
+      const requiredIds = [
+        "fullName",
+        "age",
+        "contactNumber",
+        "aadharNumber",
+        "aadharPic",
+        "panNumber",
+        "panPic",
+      ];
+      requiredIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el.value || (el.type === "file" && el.files.length === 0)) {
+          el.classList.add("input-error");
+          valid = false;
+        } else {
+          el.classList.remove("input-error");
+        }
+      });
+    }
+
+    if (currentStep === 2) {
+      const requiredIds = [
+        "farmingExperience",
+        "ownershipType",
+        "cropDuration",
+        "primaryCrop",
+        "landSize",
+        "irrigationMethod",
+      ];
+      requiredIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el.value) {
+          el.classList.add("input-error");
+          valid = false;
+        } else {
+          el.classList.remove("input-error");
+        }
+      });
+    }
+
+    if (currentStep === 3) {
+      const requiredIds = [
+        "agronomySkill",
+        "businessSkill",
+        "machinerySkill",
+        "pastInvestment",
+        "pastProfit",
+        "isLossSelect",
+        "proofPics",
+      ];
+      requiredIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el.value || (el.type === "file" && el.files.length === 0)) {
+          el.classList.add("input-error");
+          valid = false;
+        } else {
+          el.classList.remove("input-error");
+        }
+      });
+
+      const isLoss = document.getElementById("isLossSelect").value === "true";
+      if (isLoss) {
+        const lossAmountInput = document.getElementById("lossAmount");
+        if (!lossAmountInput.value) {
+          lossAmountInput.classList.add("input-error");
+          valid = false;
+        } else {
+          lossAmountInput.classList.remove("input-error");
+        }
+      }
+    }
+
+    if (currentStep === 4) {
+      const requiredIds = ["activeCropInsurance", "landDocs", "salesReceipts"];
+      const activeCropInsurance = document.getElementById("activeCropInsurance").value;
+      const insuranceDocWrapper = document.getElementById("insuranceDocWrapper");
+      const insuranceDoc = document.getElementById("insuranceDoc");
+      const ownershipType = document.getElementById("ownershipType").value;
+      const leaseDeedWrapper = document.getElementById("leaseDeedWrapper");
+      const leaseDeed = document.getElementById("leaseDeed");
+      const farmingExperience = parseFloat(
+        document.getElementById("farmingExperience").value || "0"
+      );
+
+      // Base required
+      requiredIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el.value || (el.type === "file" && el.files.length === 0)) {
+          el.classList.add("input-error");
+          valid = false;
+        } else {
+          el.classList.remove("input-error");
+        }
+      });
+
+      // Conditional crop insurance doc
+      if (activeCropInsurance === "Yes") {
+        insuranceDocWrapper.classList.remove("hidden");
+        if (!insuranceDoc.files.length) {
+          insuranceDoc.classList.add("input-error");
+          valid = false;
+        } else {
+          insuranceDoc.classList.remove("input-error");
+        }
+      } else {
+        insuranceDocWrapper.classList.add("hidden");
+      }
+
+      // Conditional lease deed
+      if (ownershipType === "lease") {
+        leaseDeedWrapper.classList.remove("hidden");
+        if (!leaseDeed.files.length) {
+          leaseDeed.classList.add("input-error");
+          valid = false;
+        } else {
+          leaseDeed.classList.remove("input-error");
+        }
+      } else {
+        leaseDeedWrapper.classList.add("hidden");
+      }
+
+      // Sales receipts required only if experience > 1 year
+      const salesReceiptsWrapper = document.getElementById("salesReceiptsWrapper");
+      const salesReceipts = document.getElementById("salesReceipts");
+      if (farmingExperience > 1) {
+        salesReceiptsWrapper.classList.remove("hidden");
+        if (!salesReceipts.files.length) {
+          salesReceipts.classList.add("input-error");
+          valid = false;
+        } else {
+          salesReceipts.classList.remove("input-error");
+        }
+      } else {
+        salesReceiptsWrapper.classList.add("hidden");
+      }
+    }
+
+    if (!valid) {
+      alert("Please fill all required fields in this step.");
+    }
+
+    return valid;
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentStep > 1) {
+      currentStep -= 1;
+      updateStepView();
     }
   });
 
-  // 2. Loss Amount conditional triggers
+  nextBtn.addEventListener("click", () => {
+    if (!validateCurrentStep()) return;
+    if (currentStep < 4) {
+      currentStep += 1;
+      updateStepView();
+    }
+  });
+
+  // Show / hide loss amount field when user selects loss
   const isLossSelect = document.getElementById("isLossSelect");
   const lossAmountWrapper = document.getElementById("lossAmountWrapper");
-  const lossAmountInput = document.getElementById("lossAmount");
 
   isLossSelect.addEventListener("change", () => {
     if (isLossSelect.value === "true") {
       lossAmountWrapper.classList.remove("hidden");
-      lossAmountInput.setAttribute("required", "required");
     } else {
       lossAmountWrapper.classList.add("hidden");
-      lossAmountInput.removeAttribute("required");
-      lossAmountInput.value = "0";
     }
   });
 
-  // 3. Insurance Doc conditional triggers
-  const activeInsuranceSelect = document.getElementById("activeCropInsurance");
+  // Show / hide insurance / lease / receipts based on user inputs (live)
+  const activeCropInsuranceSelect = document.getElementById("activeCropInsurance");
   const insuranceDocWrapper = document.getElementById("insuranceDocWrapper");
-  const insuranceDocInput = document.getElementById("insuranceDoc");
+  const ownershipTypeSelect = document.getElementById("ownershipType");
+  const leaseDeedWrapper = document.getElementById("leaseDeedWrapper");
+  const farmingExperienceInput = document.getElementById("farmingExperience");
+  const salesReceiptsWrapper = document.getElementById("salesReceiptsWrapper");
 
-  activeInsuranceSelect.addEventListener("change", () => {
-    if (activeInsuranceSelect.value === "Yes") {
+  activeCropInsuranceSelect.addEventListener("change", () => {
+    if (activeCropInsuranceSelect.value === "Yes") {
       insuranceDocWrapper.classList.remove("hidden");
-      insuranceDocInput.setAttribute("required", "required");
     } else {
       insuranceDocWrapper.classList.add("hidden");
-      insuranceDocInput.removeAttribute("required");
     }
   });
 
-  // 4. File input base64 converters
-  const setupFileBase64 = (inputId, cacheKey, isMultiple = false) => {
-    const input = document.getElementById(inputId);
-    input.addEventListener("change", async (e) => {
-      const files = e.target.files;
-      if (!files || files.length === 0) return;
-      
-      try {
-        if (isMultiple) {
-          fileCaches[cacheKey] = [];
-          for (let file of files) {
-            const b64 = await fileToBase64(file);
-            fileCaches[cacheKey].push(b64);
-          }
-        } else {
-          fileCaches[cacheKey] = await fileToBase64(files[0]);
-        }
-      } catch (err) {
-        console.error("File processing error:", err);
-        alert("Failed to process file upload. Please choose a smaller image file.");
-      }
-    });
-  };
-
-  setupFileBase64("aadharPic", "aadharPic");
-  setupFileBase64("panPic", "panPic");
-  setupFileBase64("proofPics", "proofPics", true);
-  setupFileBase64("insuranceDoc", "insuranceDoc");
-  setupFileBase64("landDocs", "landDocs");
-  setupFileBase64("leaseDeed", "leaseDeed");
-  setupFileBase64("certificates", "certificates", true);
-  setupFileBase64("salesReceipts", "salesReceipts", true);
-
-  // Wizard Buttons handlers
-  document.getElementById("prevBtn").addEventListener("click", () => {
-    if (currentStep > 1) {
-      currentStep--;
-      updateWizardUI();
+  ownershipTypeSelect.addEventListener("change", () => {
+    if (ownershipTypeSelect.value === "lease") {
+      leaseDeedWrapper.classList.remove("hidden");
+    } else {
+      leaseDeedWrapper.classList.add("hidden");
     }
   });
 
-  document.getElementById("nextBtn").addEventListener("click", () => {
-    // Dynamic conditional check for Sales Receipts based on experience (Leaving step 2)
-    if (currentStep === 2) {
-      const experienceInput = document.getElementById("farmingExperience");
-      const salesReceiptsWrapper = document.getElementById("salesReceiptsWrapper");
-      const salesReceiptsInput = document.getElementById("salesReceipts");
-      
-      const years = parseInt(experienceInput.value) || 0;
-      if (years <= 1) {
-        // Beginner: Sales receipts NOT required!
-        salesReceiptsWrapper.classList.add("hidden");
-        salesReceiptsInput.removeAttribute("required");
-      } else {
-        // Experienced: Sales receipts are required!
-        salesReceiptsWrapper.classList.remove("hidden");
-        salesReceiptsInput.setAttribute("required", "required");
-      }
-    }
-
-    if (validateCurrentStep()) {
-      if (currentStep < totalSteps) {
-        currentStep++;
-        updateWizardUI();
-      }
+  farmingExperienceInput.addEventListener("input", () => {
+    const val = parseFloat(farmingExperienceInput.value || "0");
+    if (val > 1) {
+      salesReceiptsWrapper.classList.remove("hidden");
+    } else {
+      salesReceiptsWrapper.classList.add("hidden");
     }
   });
 
-  // Handle Login submission
-  document.getElementById("loginSubmitBtn").addEventListener("click", async (e) => {
+  updateStepView(); // initialize wizard UI
+
+  // ---------- CAPABILITY SCORE CALCULATION ----------
+  const scoreValueEl = document.getElementById("scoreValue");
+  const tierValueEl = document.getElementById("tierValue");
+  const tierDescriptionEl = document.getElementById("tierDescription");
+  const recLoanLimitEl = document.getElementById("recLoanLimit");
+  const recInterestRateEl = document.getElementById("recInterestRate");
+  const recTenorEl = document.getElementById("recTenor");
+  const printReportBtn = document.getElementById("printReportBtn");
+
+  capabilityForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    const usernameInput = document.getElementById("loginUsername");
-    const passwordInput = document.getElementById("loginPassword");
-
-    if (!usernameInput.value.trim() || !passwordInput.value.trim()) {
-      alert("Please enter both Username and Password.");
-      return;
-    }
-
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: usernameInput.value,
-          password: passwordInput.value
-        })
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        currentUser = result.user;
-        // Update login button in navbar
-        const navLoginBtn = document.getElementById("navLoginBtn");
-        navLoginBtn.textContent = `Logged in: ${currentUser.username}`;
-        navLoginBtn.style.background = "#146c43";
-        navLoginBtn.disabled = true;
-
-        showFarmerForm();
-      } else {
-        alert(result.error || "Authentication failed.");
-      }
-    } catch (err) {
-      console.error("Login request error:", err);
-      // Fallback local auth if server has issues
-      currentUser = { id: 1, uid: "demo_user", username: usernameInput.value };
-      showFarmerForm();
-    }
-  });
-
-  // Capability form submission to Server API + Scoring engine
-  const formElement = document.getElementById("capabilityForm");
-
-  formElement.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
     if (!validateCurrentStep()) return;
 
-    // Build pay-load
-    const payload = {
-      userId: currentUser ? currentUser.id : null,
-      name: document.getElementById("fullName").value,
-      age: document.getElementById("age").value,
-      contactNum: document.getElementById("contactNumber").value,
-      aadharNum: document.getElementById("aadharNumber").value,
-      aadharPic: fileCaches.aadharPic,
-      panNum: document.getElementById("panNumber").value,
-      panPic: fileCaches.panPic,
-      farmingExperience: document.getElementById("farmingExperience").value,
-      landOwnerStatus: document.getElementById("ownershipType").value,
-      cropDuration: document.getElementById("cropDuration").value,
-      primaryCrop: document.getElementById("primaryCrop").value,
-      landHolding: document.getElementById("landSize").value,
-      irrigationMethod: document.getElementById("irrigationMethod").value,
-      agronomySkill: document.getElementById("agronomySkill").value,
-      businessSkill: document.getElementById("businessSkill").value,
-      machinerySkill: document.getElementById("machinerySkill").value,
-      pastInvestment: document.getElementById("pastInvestment").value,
-      pastProfit: document.getElementById("pastProfit").value,
-      isLoss: document.getElementById("isLossSelect").value,
-      lossAmount: document.getElementById("lossAmount").value,
-      proofPics: fileCaches.proofPics.join(","),
-      landDocs: fileCaches.landDocs,
-      leaseDeed: fileCaches.leaseDeed,
-      certificates: fileCaches.certificates.join(","),
-      activeCropInsurance: document.getElementById("activeCropInsurance").value,
-      salesReceipts: fileCaches.salesReceipts.join(",")
-    };
+    // Skills scores
+    const agronomyScore = parseFloat(
+      document.getElementById("agronomySkill").value || "0"
+    );
+    const businessScore = parseFloat(
+      document.getElementById("businessSkill").value || "0"
+    );
+    const machineryScore = parseFloat(
+      document.getElementById("machinerySkill").value || "0"
+    );
 
-    const submitBtn = document.getElementById("submitBtn");
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = "Analyzing Credentials on Cloud Server...";
-    submitBtn.disabled = true;
+    // Experience & finance
+    const farmingExperience = parseFloat(
+      document.getElementById("farmingExperience").value || "0"
+    );
+    const pastInvestment = parseFloat(
+      document.getElementById("pastInvestment").value || "0"
+    );
+    const pastProfit = parseFloat(
+      document.getElementById("pastProfit").value || "0"
+    );
+    const isLoss = document.getElementById("isLossSelect").value === "true";
+    const lossAmount = parseFloat(
+      document.getElementById("lossAmount").value || "0"
+    );
+    const ownershipType = document.getElementById("ownershipType").value;
+    const activeCropInsurance = document.getElementById("activeCropInsurance").value;
+    const landSize = parseFloat(
+      document.getElementById("landSize").value || "0"
+    );
+    const irrigationMethod = document.getElementById("irrigationMethod").value;
 
-    try {
-      const response = await fetch("/api/evaluate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+    // Base skill score
+    let capabilityScore =
+      agronomyScore + businessScore + machineryScore; // max 90
 
-      const result = await response.json();
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
+    // Experience weight (up to +10)
+    capabilityScore += Math.min(farmingExperience, 10);
 
-      if (result.success) {
-        const evalData = result.evaluation;
-        
-        const scoreTextElement = document.getElementById("scoreValue");
-        const tierBadgeElement = document.getElementById("tierValue");
-        const descTextElement = document.getElementById("tierDescription");
+    // Profitability adjustment (normalized)
+    const profitFactor =
+      pastInvestment > 0 ? Math.min(pastProfit / pastInvestment, 1.5) : 0;
+    capabilityScore += profitFactor * 5; // up to +7.5
 
-        // Animate count up
-        animateScore(scoreTextElement, evalData.finalScore);
-
-        tierBadgeElement.className = "tier-badge";
-
-        if (evalData.finalScore >= 80) {
-          tierBadgeElement.textContent = "Tier 1: Master Farmer";
-          tierBadgeElement.classList.add("tier-1");
-          descTextElement.textContent = "Excellent operational rating. Highly competent management traits verified. System recommends optimal loan limits with fast-track digital approval processing and minimum base interest rates.";
-        } else if (evalData.finalScore >= 50) {
-          tierBadgeElement.textContent = "Tier 2: Capable Farmer";
-          tierBadgeElement.classList.add("tier-2");
-          descTextElement.textContent = "Solid functional operations capabilities detected. Standard processing track approved. Tip: Complete verified micro-irrigation training or upload organic trade certifications to transition to Tier 1 terms.";
-        } else {
-          tierBadgeElement.textContent = "Tier 3: Developing Farmer";
-          tierBadgeElement.classList.add("tier-3");
-          descTextElement.textContent = "Baseline structural parameters limited. Recommended conditional loan approval linked directly with regional cooperative oversight or micro-credit safety streams.";
-        }
-
-        renderGreeting(evalData.name, evalData.landOwnerStatus);
-
-        renderBreakdown([
-          { label: "Crop Management & Agronomy", score: evalData.agronomySkill, max: 40 },
-          { label: "Financial & Market Skill", score: evalData.businessSkill, max: 30 },
-          { label: "Machinery & Tech Proficiency", score: evalData.machinerySkill, max: 20 },
-          { label: "Verified Credentials", score: (evalData.certificates && evalData.certificates.length > 10) ? 10 : 0, max: 10 },
-        ]);
-
-        // Loan recommendations
-        const recLoanLimit = document.getElementById("recLoanLimit");
-        const recInterestRate = document.getElementById("recInterestRate");
-        const recTenor = document.getElementById("recTenor");
-
-        if (evalData.finalScore >= 80) {
-          recLoanLimit.textContent = "₹3,50,000";
-          recInterestRate.textContent = "4.0%";
-          recTenor.textContent = "18 Months";
-        } else if (evalData.finalScore >= 50) {
-          recLoanLimit.textContent = "₹1,50,000";
-          recInterestRate.textContent = "6.5%";
-          recTenor.textContent = "12 Months";
-        } else {
-          recLoanLimit.textContent = "₹50,000";
-          recInterestRate.textContent = "8.5%";
-          recTenor.textContent = "6 Months";
-        }
-
-        // Retrieve and display user's historic evaluations from Cloud SQL Database
-        if (currentUser) {
-          try {
-            const histResponse = await fetch(`/api/evaluations/${currentUser.id}`);
-            const histData = await histResponse.json();
-            if (histData.success) {
-              renderHistoryList(histData.history);
-            }
-          } catch (histErr) {
-            console.error("Could not fetch database logs:", histErr);
-          }
-        }
-
-        showDashboard();
-      } else {
-        alert(result.error || "Failed to calculate capability index.");
-      }
-    } catch (err) {
-      console.error("Evaluation request error:", err);
-      alert("Failed to connect to Cloud Service. Check database initialization.");
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
+    // Loss penalty
+    if (isLoss && lossAmount > 0) {
+      const lossFactor =
+        pastInvestment > 0 ? Math.min(lossAmount / pastInvestment, 1.5) : 1;
+      capabilityScore -= lossFactor * 3; // up to -4.5
     }
+
+    // Ownership bonus
+    if (ownershipType === "owner") {
+      capabilityScore += 5;
+    } else if (ownershipType === "lease") {
+      capabilityScore += 2;
+    }
+
+    // Insurance bonus
+    if (activeCropInsurance === "Yes") {
+      capabilityScore += 3;
+    }
+
+    // Irrigation reliability
+    if (irrigationMethod === "Micro-irrigation") {
+      capabilityScore += 4;
+    } else if (irrigationMethod === "Borewell" || irrigationMethod === "Canal") {
+      capabilityScore += 3;
+    } else if (irrigationMethod === "Rainfed") {
+      capabilityScore += 0; // no bonus
+    }
+
+    // Land size scaling (but capped)
+    const landFactor = Math.min(landSize, 10) * 0.8; // up to +8
+    capabilityScore += landFactor;
+
+    // Clamp score 0–100
+    capabilityScore = Math.max(0, Math.min(100, capabilityScore));
+
+    // Tier mapping
+    let tier = "";
+    let description = "";
+    let loanLimit = 0;
+    let interestRate = 0;
+    let tenorMonths = 0;
+
+    if (capabilityScore >= 80) {
+      tier = "Tier A – High Capability";
+      description =
+        "Farmer demonstrates strong agronomy, financial planning, and reliable evidence. Suitable for higher loan limits with preferred interest rates.";
+      loanLimit =
+        Math.round((pastInvestment + pastProfit + landSize * 50000) / 10000) *
+        10000;
+      interestRate = 10.5;
+      tenorMonths = 36;
+    } else if (capabilityScore >= 60) {
+      tier = "Tier B – Moderate Capability";
+      description =
+        "Farmer shows consistent operations with reasonable skills and documentation, eligible for standard loan programs.";
+      loanLimit =
+        Math.round((pastInvestment + landSize * 30000) / 10000) * 10000;
+      interestRate = 12.0;
+      tenorMonths = 24;
+    } else if (capabilityScore >= 40) {
+      tier = "Tier C – Emerging Capability";
+      description =
+        "Farmer has basic skills and limited records. Recommend smaller ticket loans and closer monitoring.";
+      loanLimit =
+        Math.round((pastInvestment + landSize * 15000) / 10000) * 10000;
+      interestRate = 13.5;
+      tenorMonths = 18;
+    } else {
+      tier = "Tier D – High Risk / Support Required";
+      description =
+        "Current evidence suggests higher risk or inexperienced operations. Recommend capacity building and small working‑capital support only.";
+      loanLimit =
+        Math.round((pastInvestment + landSize * 8000) / 10000) * 10000;
+      interestRate = 15.0;
+      tenorMonths = 12;
+    }
+
+    // Update dashboard
+    scoreValueEl.textContent = capabilityScore.toFixed(1);
+    tierValueEl.textContent = tier;
+    tierDescriptionEl.textContent = description;
+    recLoanLimitEl.textContent = "₹" + loanLimit.toLocaleString("en-IN");
+    recInterestRateEl.textContent = interestRate.toFixed(1) + "%";
+    recTenorEl.textContent = tenorMonths + " Months";
+
+    showDashboard();
   });
 
-  // Print button
-  document.getElementById("printReportBtn").addEventListener("click", () => {
+  // Print report
+  printReportBtn.addEventListener("click", () => {
     window.print();
   });
-});
-
-// =========================
-// Popup Functions
-// =========================
-function openPopup(id) {
-    const popup = document.getElementById(id);
-    popup.style.display = "flex";
-
-    setTimeout(() => {
-        popup.classList.add("show");
-    }, 10);
-}
-
-function closePopup(id) {
-    const popup = document.getElementById(id);
-    popup.classList.remove("show");
-
-    setTimeout(() => {
-        popup.style.display = "none";
-    }, 300);
-}
-
-// Close popup when clicking outside
-window.addEventListener("click", function(e) {
-    document.querySelectorAll(".popup").forEach((popup) => {
-        if (e.target === popup) {
-            popup.classList.remove("show");
-
-            setTimeout(() => {
-                popup.style.display = "none";
-            }, 300);
-        }
-    });
 });
