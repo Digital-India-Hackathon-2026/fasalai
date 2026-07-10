@@ -9,8 +9,12 @@ body{
   background:linear-gradient(135deg,#f2fff2,#d8f7d6,#c8efc5);
 }
 
-/* Navbar */
+/* Utility Class to hide elements */
+.hidden {
+  display: none !important;
+}
 
+/* Navbar */
 nav{
   display:flex;
   justify-content:space-between;
@@ -58,7 +62,6 @@ nav a{
 }
 
 /* Hero */
-
 .hero{
   text-align:center;
   padding:80px 20px;
@@ -98,14 +101,7 @@ nav a{
   border:none;
 }
 
-.bank-btn{
-  border:2px solid #198754;
-  background:white;
-  color:#198754;
-}
-
 /* Cards */
-
 .cards{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -129,7 +125,6 @@ nav a{
 }
 
 /* Login */
-
 .login-section{
   display:flex;
   justify-content:center;
@@ -169,7 +164,6 @@ nav a{
 }
 
 /* Form */
-
 .form-section{
   background:white;
   max-width:1000px;
@@ -211,56 +205,30 @@ nav a{
   font-size:18px;
 }
 
-/* Dashboard */
-
-.dashboard{
-  max-width:800px;
-  margin:70px auto;
-  background:white;
-  text-align:center;
-  padding:50px;
-  border-radius:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,.1);
-}
-
-.dashboard h2{
-  margin-bottom:20px;
-  color:#146c43;
-}
-
 /* Responsive */
-
 @media(max-width:900px){
-
-nav{
-  flex-direction:column;
-  gap:20px;
-}
-
-nav ul{
-  flex-wrap:wrap;
-  justify-content:center;
-}
-
-.cards{
-  grid-template-columns:1fr;
-}
-
-.login-section{
-  flex-direction:column;
-  align-items:center;
-}
-
-.form-grid{
-  grid-template-columns:1fr;
-}
-
-.full{
-  grid-column:auto;
-}
-
-.hero h1{
-  font-size:45px;
-}
-
+  nav{
+    flex-direction:column;
+    gap:20px;
+  }
+  nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .cards{
+    grid-template-columns:1fr;
+  }
+  .login-section{
+    flex-direction:column;
+    align-items:center;
+  }
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+  .full{
+    grid-column:auto;
+  }
+  .hero h1{
+    font-size:45px;
+  }
 }

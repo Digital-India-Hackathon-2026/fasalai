@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Farmer Portal</title>
-
-
-<link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
     <nav>
@@ -28,118 +25,60 @@
             <li><a href="#">Contact</a></li>
         </ul>
 
-        <button class="login-btn">Login</button>
+        <button class="login-btn" id="navLoginBtn">Login</button>
     </nav>
 
-    <section class="hero">
-
+    <section class="hero" id="landing">
         <h1>Smart Farmer Portal</h1>
-
-        <p>
-            Empowering farmers with AI-assisted agricultural loan assessment.
-        </p>
-
+        <p>Empowering farmers with AI-assisted agricultural loan assessment.</p>
         <p class="sub">
             Submit land details, crop information, repayment history and
             government scheme participation to streamline loan approvals.
         </p>
 
         <div class="buttons">
-            <button class="farmer-btn">
+            <button class="farmer-btn" id="continueFarmerBtn">
                 Continue as Farmer
-            </button>
-
-            <button class="bank-btn">
-                Continue as Bank Officer
             </button>
         </div>
 
         <div class="cards">
-
             <div class="card">
                 <h3>Smart Loan Assessment</h3>
                 <p>AI-powered loan recommendations.</p>
             </div>
-
             <div class="card">
                 <h3>Weather Insights</h3>
                 <p>Weather-aware risk analysis.</p>
             </div>
-
             <div class="card">
-                <h3>Secure Banking</h3>
-                <p>Fast, transparent approvals.</p>
+                <h3>Secure Processing</h3>
+                <p>Fast, transparent tracking.</p>
             </div>
-
         </div>
-
     </section>
 
-    <section class="login-section">
-
+    <section class="login-section hidden" id="farmerLogin">
         <div class="login-box">
-
             <h2>Farmer Login</h2>
-
             <input type="text" placeholder="Username">
-
             <input type="password" placeholder="Password">
-
-            <button>Login</button>
-
+            <button id="loginSubmitBtn">Login</button>
         </div>
-
-        <div class="login-box">
-
-            <h2>Bank Officer Login</h2>
-
-            <input type="text" placeholder="Username">
-
-            <input type="password" placeholder="Password">
-
-            <button>Login</button>
-
-        </div>
-
     </section>
 
-    <section class="form-section">
-
+    <section class="form-section hidden" id="farmerForm">
         <h2>Farmer Information</h2>
-
         <div class="form-grid">
-
             <input type="text" placeholder="Personal Details">
-
             <input type="text" placeholder="Land Ownership and Size">
-
             <input type="text" placeholder="Crop Type and Yield">
-
             <input type="text" placeholder="Previous Loan Repayment History">
-
             <input type="text" placeholder="Bank Transaction History">
-
             <input type="text" placeholder="Weather Information">
-
-            <input class="full" type="text"
-                placeholder="Government Scheme Participation">
-
+            <input class="full" type="text" placeholder="Government Scheme Participation">
         </div>
-
-        <button class="submit-btn">
-            Submit
-        </button>
-
-    </section>
-
-    <section class="dashboard">
-
-        <h2>Banker Dashboard</h2>
-
-        <p>
-            Welcome! Review farmer applications and manage loan approvals.
-        </p>
-
+        <button class="submit-btn">Submit</button>
     </section>
 
 </body>
