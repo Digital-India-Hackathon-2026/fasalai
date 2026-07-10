@@ -1,135 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FasalAI — Farmer credit scoring</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farmer Portal</title>
+
+
 <link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
-<div class="wrap">
 
-  <header class="top">
-    <div class="brand">
-      <div class="stalk"></div>
-      <div>
-        <div class="eyebrow">Prototype</div>
-        <h1>FasalAI credit scoring</h1>
-      </div>
-    </div>
-    <nav class="roles">
-      <button id="tab-farmer" class="active" onclick="switchTab('farmer')">Farmer</button>
-      <button id="tab-lender" onclick="switchTab('lender')">Lender</button>
+    <nav>
+        <div class="logo">
+            <img src="farmer.jpeg" alt="Logo">
+            <h1>Smart Farmer</h1>
+        </div>
+
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">How It Works</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+
+        <button class="login-btn">Login</button>
     </nav>
-  </header>
 
-  <!-- FARMER LOGIN -->
-  <div id="farmer-login" class="screen active">
-    <div class="card">
-      <div class="eyebrow" style="margin-bottom:10px;">Farmer login</div>
-      <h2 style="font-size:20px;margin-bottom:18px;">Sign in to see or build your credit profile</h2>
-      <div class="grid2">
-        <div class="field"><label>Username</label><input id="f-user" placeholder="e.g. renu_farmer"></div>
-        <div class="field"><label>Password</label><input id="f-pass" type="password" placeholder="••••••"></div>
-      </div>
-      <button class="btn" onclick="farmerLogin()">Sign in</button>
-      <button class="btn ghost" onclick="showFarmerForm(null)" style="margin-left:8px;">New farmer — create profile</button>
-      <p class="hint">Demo accounts (click to fill):</p>
-      <div class="demo-row">
-        <span onclick="fillFarmer('ravi_kumar')">ravi_kumar / 1234 — strong history</span>
-        <span onclick="fillFarmer('lakshmi_d')">lakshmi_d / 1234 — thin history</span>
-        <span onclick="fillFarmer('suresh_n')">suresh_n / 1234 — high debt</span>
-      </div>
-    </div>
-  </div>
+    <section class="hero">
 
-  <!-- FARMER PROFILE FORM -->
-  <div id="farmer-form" class="screen">
-    <div class="card">
-      <div class="eyebrow" style="margin-bottom:10px;">Farmer profile</div>
-      <h2 style="font-size:20px;margin-bottom:18px;">Tell us about your land and income</h2>
-      <div class="grid2">
-        <div class="field"><label>Full name</label><input id="p-name"></div>
-        <div class="field"><label>Age</label><input id="p-age" type="number"></div>
-        <div class="field"><label>Land size (acres)</label><input id="p-land" type="number" step="0.1"></div>
-        <div class="field"><label>Land type</label><select id="p-landtype"><option>Owned</option><option>Leased</option></select></div>
-        <div class="field"><label>Primary crop</label><input id="p-crop" placeholder="e.g. Cotton"></div>
-        <div class="field"><label>Irrigation source</label><select id="p-irrig"><option>Borewell</option><option>Canal</option><option>Rain-fed</option><option>None</option></select></div>
-        <div class="field"><label>Years of crop history available</label><input id="p-years" type="number" min="0" max="3" value="3"></div>
-        <div class="field"><label>Avg. yearly income (₹)</label><input id="p-income" type="number"></div>
-        <div class="field"><label>Existing debt (₹)</label><input id="p-debt" type="number" value="0"></div>
-        <div class="field"><label>Family size</label><input id="p-family" type="number"></div>
-      </div>
-      <div class="toggle" style="margin:14px 0;">
-        <div class="switch on" id="consent-switch" onclick="toggleConsent()"><div class="dot"></div></div>
-        <span>Make my score visible to lenders</span>
-      </div>
-      <button class="btn" onclick="submitProfile()">Generate my score</button>
-      <button class="btn ghost" onclick="switchTab('farmer')" style="margin-left:8px;">Back</button>
-    </div>
-  </div>
+        <h1>Smart Farmer Portal</h1>
 
-  <!-- FARMER DASHBOARD -->
-  <div id="farmer-dash" class="screen">
-    <div class="card">
-      <div class="eyebrow">Your score</div>
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;">
-        <div>
-          <div class="score-num" id="fd-score">--</div>
-          <span class="tag" id="fd-tag">--</span>
+        <p>
+            Empowering farmers with AI-assisted agricultural loan assessment.
+        </p>
+
+        <p class="sub">
+            Submit land details, crop information, repayment history and
+            government scheme participation to streamline loan approvals.
+        </p>
+
+        <div class="buttons">
+            <button class="farmer-btn">
+                Continue as Farmer
+            </button>
+
+            <button class="bank-btn">
+                Continue as Bank Officer
+            </button>
         </div>
-        <div style="text-align:right;">
-          <div class="eyebrow">Confidence</div>
-          <div id="fd-conf" style="font-family:'IBM Plex Mono',monospace;font-size:14px;"></div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Smart Loan Assessment</h3>
+                <p>AI-powered loan recommendations.</p>
+            </div>
+
+            <div class="card">
+                <h3>Weather Insights</h3>
+                <p>Weather-aware risk analysis.</p>
+            </div>
+
+            <div class="card">
+                <h3>Secure Banking</h3>
+                <p>Fast, transparent approvals.</p>
+            </div>
+
         </div>
-      </div>
-      <div class="silo-row" id="fd-silo-row"></div>
-      <div class="note" id="fd-cold-note" style="display:none;">Limited history detected — score is based partly on public government data (soil, rainfall, crop calendar) rather than your own record.</div>
-    </div>
-    <div class="card">
-      <h3 style="font-size:16px;margin-bottom:14px;">What's shaping your score</h3>
-      <div id="fd-factors"></div>
-      <p class="hint">These are the top factors, in plain language — the same explanation a loan officer sees.</p>
-    </div>
-    <div class="card">
-      <h3 style="font-size:16px;margin-bottom:10px;">How to improve it</h3>
-      <ul id="fd-tips" style="font-size:14px;color:var(--ink-soft);line-height:1.8;margin:0;padding-left:20px;"></ul>
-    </div>
-    <button class="btn ghost" onclick="switchTab('farmer')">Sign out</button>
-  </div>
 
-  <!-- LENDER LOGIN -->
-  <div id="lender-login" class="screen">
-    <div class="card">
-      <div class="eyebrow" style="margin-bottom:10px;">Lender login</div>
-      <h2 style="font-size:20px;margin-bottom:18px;">Sign in to look up a farmer's score</h2>
-      <div class="grid2">
-        <div class="field"><label>Username</label><input id="l-user" placeholder="e.g. bank_officer"></div>
-        <div class="field"><label>Password</label><input id="l-pass" type="password" placeholder="••••••"></div>
-      </div>
-      <button class="btn wheat" onclick="lenderLogin()">Sign in</button>
-      <p class="hint">Demo: username <span style="font-family:'IBM Plex Mono',monospace">lender1</span> / password <span style="font-family:'IBM Plex Mono',monospace">1234</span></p>
-    </div>
-  </div>
+    </section>
 
-  <!-- LENDER SEARCH -->
-  <div id="lender-search" class="screen">
-    <div class="card">
-      <div class="eyebrow" style="margin-bottom:10px;">Look up a farmer</div>
-      <div style="display:flex;gap:10px;">
-        <input id="l-search" placeholder="Enter farmer username, e.g. ravi_kumar">
-        <button class="btn wheat" onclick="lenderSearch()">Search</button>
-      </div>
-      <p class="hint">Try: ravi_kumar, lakshmi_d, suresh_n — or any new profile you created on the farmer side.</p>
-    </div>
-    <div id="l-result"></div>
-  </div>
+    <section class="login-section">
 
-  <p class="foot-note">Prototype for demonstration — all data is in-memory and resets on refresh. In a production build, authentication would use OTP + hashed passwords, and lenders would never receive raw personal fields, only the computed score, confidence, and explanation.</p>
-</div>
+        <div class="login-box">
 
-<script src="script.js"></script>
+            <h2>Farmer Login</h2>
+
+            <input type="text" placeholder="Username">
+
+            <input type="password" placeholder="Password">
+
+            <button>Login</button>
+
+        </div>
+
+        <div class="login-box">
+
+            <h2>Bank Officer Login</h2>
+
+            <input type="text" placeholder="Username">
+
+            <input type="password" placeholder="Password">
+
+            <button>Login</button>
+
+        </div>
+
+    </section>
+
+    <section class="form-section">
+
+        <h2>Farmer Information</h2>
+
+        <div class="form-grid">
+
+            <input type="text" placeholder="Personal Details">
+
+            <input type="text" placeholder="Land Ownership and Size">
+
+            <input type="text" placeholder="Crop Type and Yield">
+
+            <input type="text" placeholder="Previous Loan Repayment History">
+
+            <input type="text" placeholder="Bank Transaction History">
+
+            <input type="text" placeholder="Weather Information">
+
+            <input class="full" type="text"
+                placeholder="Government Scheme Participation">
+
+        </div>
+
+        <button class="submit-btn">
+            Submit
+        </button>
+
+    </section>
+
+    <section class="dashboard">
+
+        <h2>Banker Dashboard</h2>
+
+        <p>
+            Welcome! Review farmer applications and manage loan approvals.
+        </p>
+
+    </section>
+
 </body>
 </html>
