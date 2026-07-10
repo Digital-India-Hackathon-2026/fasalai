@@ -34,7 +34,7 @@
             By shifting focus from rigid credit histories to your real-world agricultural expertise, we unlock transparent financing for landowners and lease-takers alike.
         </p>
         <div class="buttons">
-            <button class="farmer-btn" id="continueFarmerBtn">Continue as Farmer</button>
+            <button class="farmer-btn" id="continueFarmerBtn">Login to Smart Farmer Portal</button>
         </div>
         <div class="cards">
             <div class="card">
@@ -55,8 +55,13 @@
     <section class="login-section hidden" id="farmerLogin">
         <div class="login-box">
             <h2>Farmer Login</h2>
-            <input type="text" placeholder="Mobile Number or Username" required>
-            <input type="password" placeholder="Password" required>
+            <div style="background: #e2efe2; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; color: #146c43; text-align: left;">
+                <strong>Demo Credentials:</strong><br>
+                Mobile/Username: <code style="font-weight: bold;">9876543210</code><br>
+                Password: <code style="font-weight: bold;">password</code>
+            </div>
+            <input type="text" id="loginUsername" placeholder="Mobile Number or Username" value="9876543210" required>
+            <input type="password" id="loginPassword" placeholder="Password" value="password" required>
             <button id="loginSubmitBtn">Login</button>
         </div>
     </section>
@@ -261,68 +266,232 @@
     </section>
 
     <section class="form-section hidden" id="farmerForm">
-        <h2>Farmer Profile &amp; Skill Assessment</h2>
+        <h2 style="margin-bottom: 10px;">Farmer Profile &amp; Capability Assessment</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 14px;">Please complete the multi-step evaluation form below.</p>
+        
+        <!-- Wizard Stepper Indicator -->
+        <div class="stepper" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; background: #f8fafc; padding: 16px 24px; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <div class="step active" id="stepIndicator1" style="display: flex; flex-direction: column; align-items: center; flex: 1; text-align: center; opacity: 1;">
+                <span class="step-num" style="width: 32px; height: 32px; border-radius: 50%; background: #146c43; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; margin-bottom: 6px;">1</span>
+                <span class="step-label" style="font-size: 12px; font-weight: 600; color: #146c43;">Profile</span>
+            </div>
+            <div class="step-line" id="stepLine1" style="height: 2px; background: #cbd5e1; flex: 0.5; margin-top: -20px;"></div>
+            <div class="step" id="stepIndicator2" style="display: flex; flex-direction: column; align-items: center; flex: 1; text-align: center; opacity: 0.5;">
+                <span class="step-num" style="width: 32px; height: 32px; border-radius: 50%; background: #cbd5e1; color: #475569; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; margin-bottom: 6px;">2</span>
+                <span class="step-label" style="font-size: 12px; font-weight: 600; color: #64748b;">Land &amp; Crops</span>
+            </div>
+            <div class="step-line" id="stepLine2" style="height: 2px; background: #cbd5e1; flex: 0.5; margin-top: -20px;"></div>
+            <div class="step" id="stepIndicator3" style="display: flex; flex-direction: column; align-items: center; flex: 1; text-align: center; opacity: 0.5;">
+                <span class="step-num" style="width: 32px; height: 32px; border-radius: 50%; background: #cbd5e1; color: #475569; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; margin-bottom: 6px;">3</span>
+                <span class="step-label" style="font-size: 12px; font-weight: 600; color: #64748b;">Skills</span>
+            </div>
+            <div class="step-line" id="stepLine3" style="height: 2px; background: #cbd5e1; flex: 0.5; margin-top: -20px;"></div>
+            <div class="step" id="stepIndicator4" style="display: flex; flex-direction: column; align-items: center; flex: 1; text-align: center; opacity: 0.5;">
+                <span class="step-num" style="width: 32px; height: 32px; border-radius: 50%; background: #cbd5e1; color: #475569; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; margin-bottom: 6px;">4</span>
+                <span class="step-label" style="font-size: 12px; font-weight: 600; color: #64748b;">Evidence</span>
+            </div>
+        </div>
+
         <form id="capabilityForm">
-
-            <div class="form-group-title">Basic &amp; Land Details</div>
-            <div class="form-grid">
-                <input type="text" placeholder="Full Name" required>
-                <input type="text" placeholder="Contact Number" required>
-
-                <select id="ownershipType" class="skill-dropdown" required>
-                    <option value="" disabled selected>Land Ownership Status</option>
-                    <option value="owner">Land Owner</option>
-                    <option value="lease">Lease Taker (Tenant Farmer)</option>
-                </select>
-                <input type="text" id="leaseDuration" placeholder="Lease Duration / Land Size Details" required>
-            </div>
-
-            <div class="form-group-title">Agricultural Skills Matrix</div>
-            <div class="form-grid">
-                <select id="agronomySkill" class="skill-dropdown" required>
-                    <option value="" disabled selected>Crop Management &amp; Agronomy Skill</option>
-                    <option value="20">Beginner (Traditional Methods)</option>
-                    <option value="30">Intermediate (Soil Testing &amp; Scheduled Irrigation)</option>
-                    <option value="40">Advanced (Precision Ag / Controlled Environment)</option>
-                </select>
-
-                <select id="businessSkill" class="skill-dropdown" required>
-                    <option value="" disabled selected>Financial &amp; Market Skill</option>
-                    <option value="15">Beginner (Basic Cost Tracking)</option>
-                    <option value="25">Intermediate (Yield Forecasting &amp; Budgeting)</option>
-                    <option value="30">Advanced (Contract Farming / Market Hedging)</option>
-                </select>
-
-                <select id="machinerySkill" class="skill-dropdown" required>
-                    <option value="" disabled selected>Machinery &amp; Tech Proficiency</option>
-                    <option value="10">Beginner (Manual / Basic Hand Tools)</option>
-                    <option value="15">Intermediate (Tractor / Standard Implements)</option>
-                    <option value="20">Advanced (Automated Machinery / Drones)</option>
-                </select>
-
-                <select id="certificateType" class="skill-dropdown" required>
-                    <option value="" disabled selected>Highest Verified Certification</option>
-                    <option value="10">Government / KVK Training Certificate</option>
-                    <option value="10">Organic Farming Certification (PGS/NPOP)</option>
-                    <option value="10">Good Agricultural Practices (GAP) Certificate</option>
-                    <option value="10">Drone Operational License</option>
-                    <option value="0">No Formal Certificate (Experienced / Self-Taught)</option>
-                </select>
-            </div>
-
-            <div class="form-group-title">Verification Evidence (Alternative Data)</div>
-            <div class="form-grid">
-                <div class="file-input-wrapper">
-                    <label>Upload Certification Document / Training ID</label>
-                    <input type="file" accept="image/*,.pdf">
-                </div>
-                <div class="file-input-wrapper">
-                    <label>Upload Crop Sales Receipts (Mandi / Corporate Buyer)</label>
-                    <input type="file" accept="image/*,.pdf" multiple required>
+            <!-- STEP 1: PERSONAL & PROFILE -->
+            <div class="step-pane" id="stepPane1">
+                <div class="form-group-title">Basic Profile Details</div>
+                <div class="form-grid">
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Full Name *</label>
+                        <input type="text" id="fullName" placeholder="Enter Full Name" required>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Age (Years) *</label>
+                        <input type="number" id="age" placeholder="Enter Age" min="18" max="100" required>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Contact Number (10 digit) *</label>
+                        <input type="text" id="contactNumber" placeholder="10-Digit Mobile Number" required pattern="[0-9]{10}">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Aadhar Card Number *</label>
+                        <input type="text" id="aadharNumber" placeholder="12-Digit Aadhar Card Number" required pattern="[0-9]{12}">
+                    </div>
+                    <div class="file-input-wrapper" style="grid-column: span 2;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Upload Aadhar Card Photo *</label>
+                        <input type="file" id="aadharPic" accept="image/*" required>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px; grid-column: span 1;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">PAN Card Number *</label>
+                        <input type="text" id="panNumber" placeholder="10-Character PAN Number" required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}">
+                    </div>
+                    <div class="file-input-wrapper" style="grid-column: span 1;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Upload PAN Card Photo *</label>
+                        <input type="file" id="panPic" accept="image/*" required>
+                    </div>
                 </div>
             </div>
 
-            <button type="submit" class="submit-btn">Generate Capability Score</button>
+            <!-- STEP 2: LAND & CULTIVATION DETAILS -->
+            <div class="step-pane hidden" id="stepPane2">
+                <div class="form-group-title">Land &amp; Cultivation Details</div>
+                <div class="form-grid">
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Farming Experience (Years) *</label>
+                        <input type="number" id="farmingExperience" placeholder="Years of active farming" min="0" max="60" required>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Land Ownership Status *</label>
+                        <select id="ownershipType" class="skill-dropdown" required>
+                            <option value="" disabled selected>Select Ownership</option>
+                            <option value="owner">Land Owner</option>
+                            <option value="lease">Lease Taker (Tenant Farmer)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Crop Duration *</label>
+                        <select id="cropDuration" class="skill-dropdown" required>
+                            <option value="" disabled selected>Select Crop Duration</option>
+                            <option value="Short Duration (3-4 Months)">Short Duration (3-4 Months)</option>
+                            <option value="Medium Duration (5-6 Months)">Medium Duration (5-6 Months)</option>
+                            <option value="Long Duration (7-9 Months)">Long Duration (7-9 Months)</option>
+                            <option value="Year-round / Multi-crop">Year-round / Multi-crop</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Primary Crop Type *</label>
+                        <select id="primaryCrop" class="skill-dropdown" required>
+                            <option value="" disabled selected>Select Crop Type</option>
+                            <option value="Paddy/Rice">Paddy / Rice</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Cotton">Cotton</option>
+                            <option value="Sugarcane">Sugarcane</option>
+                            <option value="Maize">Maize / Corn</option>
+                            <option value="Pulses">Pulses / Beans</option>
+                            <option value="Vegetables">Vegetables / Cash Crops</option>
+                            <option value="Horticulture">Horticulture / Fruits</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Land Holding Size (Acres) *</label>
+                        <input type="number" id="landSize" placeholder="Area in Acres" min="0.1" step="0.1" required>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Irrigation Method *</label>
+                        <select id="irrigationMethod" class="skill-dropdown" required>
+                            <option value="" disabled selected>Select Irrigation</option>
+                            <option value="Rainfed">Rainfed (Natural Monsoon)</option>
+                            <option value="Borewell">Tube Well / Borewell</option>
+                            <option value="Canal">Canal Irrigation</option>
+                            <option value="Micro-irrigation">Micro-irrigation (Drip / Sprinkler)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: AGRICULTURAL SKILLS & PRACTICE ASSESSMENT -->
+            <div class="step-pane hidden" id="stepPane3">
+                <div class="form-group-title">Agricultural Skills &amp; Financials</div>
+                <div class="form-grid">
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Crop Management &amp; Agronomy Skill *</label>
+                        <select id="agronomySkill" class="skill-dropdown" required>
+                            <option value="" disabled selected>Select Agronomy level</option>
+                            <option value="20">Beginner (Traditional Methods)</option>
+                            <option value="30">Intermediate (Soil Testing &amp; Scheduled Irrigation)</option>
+                            <option value="40">Advanced (Precision Ag / Controlled Environment)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Financial &amp; Market Skill *</label>
+                        <select id="businessSkill" class="skill-dropdown" required>
+                            <option value="" disabled selected>Select Financial level</option>
+                            <option value="15">Beginner (Basic Cost Tracking)</option>
+                            <option value="25">Intermediate (Yield Forecasting &amp; Budgeting)</option>
+                            <option value="30">Advanced (Contract Farming / Market Hedging)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Machinery &amp; Tech Proficiency *</label>
+                        <select id="machinerySkill" class="skill-dropdown" required>
+                            <option value="" disabled selected>Select Tech level</option>
+                            <option value="10">Beginner (Manual / Basic Hand Tools)</option>
+                            <option value="15">Intermediate (Tractor / Standard Implements)</option>
+                            <option value="20">Advanced (Automated Machinery / Drones)</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Past Crop Investment (Rs.) *</label>
+                        <input type="number" id="pastInvestment" placeholder="Total Investment in Rupees" min="1000" required>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Past Crop Profit (Rs.) *</label>
+                        <input type="number" id="pastProfit" placeholder="Profit in Rupees (Write 0 if no profit/loss)" min="0" required>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Did you suffer any loss? *</label>
+                        <select id="isLossSelect" class="skill-dropdown" required>
+                            <option value="false">No Loss</option>
+                            <option value="true">Yes, Sufferred Loss</option>
+                        </select>
+                    </div>
+                    <div id="lossAmountWrapper" class="hidden" style="display: flex; flex-direction: column; gap: 6px; grid-column: span 2;">
+                        <label style="font-size: 13px; font-weight: 600; color: #146c43;">How much loss did you suffer? (Rs.) *</label>
+                        <input type="number" id="lossAmount" placeholder="Enter loss amount in Rupees" value="0">
+                    </div>
+                    <div class="file-input-wrapper" style="grid-column: span 2;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Upload Proof of Yield / Land Cultivation Photos (Multiple) *</label>
+                        <input type="file" id="proofPics" accept="image/*" multiple required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 4: VERIFICATION EVIDENCE & CERTIFICATES -->
+            <div class="step-pane hidden" id="stepPane4">
+                <div class="form-group-title">Verification Evidence (Alternative Data)</div>
+                <div class="form-grid">
+                    <div style="display: flex; flex-direction: column; gap: 6px; grid-column: span 2;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Active Crop Insurance *</label>
+                        <select id="activeCropInsurance" class="skill-dropdown" required>
+                            <option value="No">No Active Crop Insurance</option>
+                            <option value="Yes">Yes, Active Crop Insurance Policy</option>
+                        </select>
+                    </div>
+                    
+                    <div id="insuranceDocWrapper" class="file-input-wrapper hidden" style="grid-column: span 2;">
+                        <label style="font-size: 13px; font-weight: 600; color: #146c43;">Upload Crop Insurance Policy Certificate *</label>
+                        <input type="file" id="insuranceDoc" accept="image/*,.pdf">
+                    </div>
+
+                    <!-- Land Documents (Required for both, Owner and Lease) -->
+                    <div class="file-input-wrapper" id="landDocsWrapper" style="grid-column: span 2;">
+                        <label id="landDocsLabel" style="font-size: 13px; font-weight: 600; color: #444;">Upload Land Records (Khata/Fard/7-12) *</label>
+                        <input type="file" id="landDocs" accept="image/*,.pdf" required>
+                    </div>
+
+                    <!-- Lease Deed (Required if Lease selected) -->
+                    <div class="file-input-wrapper hidden" id="leaseDeedWrapper" style="grid-column: span 2;">
+                        <label style="font-size: 13px; font-weight: 600; color: #146c43;">Upload Registered Rent / Lease Deed *</label>
+                        <input type="file" id="leaseDeed" accept="image/*,.pdf">
+                    </div>
+
+                    <!-- Certificates (Optional) -->
+                    <div class="file-input-wrapper" style="grid-column: span 2;">
+                        <label style="font-size: 13px; font-weight: 600; color: #444;">Upload Any Training / Organic / Drone License Certificates (Optional)</label>
+                        <input type="file" id="certificates" accept="image/*,.pdf" multiple>
+                    </div>
+
+                    <!-- Sales Receipts (Required if experience > 1, hidden if experience <= 1) -->
+                    <div class="file-input-wrapper" id="salesReceiptsWrapper" style="grid-column: span 2;">
+                        <label id="salesReceiptsLabel" style="font-size: 13px; font-weight: 600; color: #444;">Upload Crop Sales Receipts (Mandi / Corporate Buyer) *</label>
+                        <input type="file" id="salesReceipts" accept="image/*,.pdf" multiple required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wizard Navigation Buttons -->
+            <div class="step-buttons" style="margin-top: 35px; display: flex; justify-content: space-between; gap: 15px;">
+                <button type="button" class="btn-secondary hidden" id="prevBtn" style="padding: 14px 28px; font-weight: 600; cursor: pointer; border-radius: 8px; border: 1px solid #ccc; background: white; transition: 0.2s;">Previous</button>
+                <div style="flex-grow: 1;"></div>
+                <button type="button" class="btn-primary" id="nextBtn" style="padding: 14px 35px; font-weight: 600; cursor: pointer; border-radius: 8px; border: none; background: #198754; color: white; transition: 0.2s;">Next Step</button>
+                <button type="submit" class="submit-btn hidden" id="submitBtn" style="margin-top: 0; width: auto; padding: 14px 35px; font-weight: 600; cursor: pointer; border-radius: 8px; border: none; background: #198754; color: white; transition: 0.2s;">Generate Capability Score</button>
+            </div>
         </form>
     </section>
 
@@ -341,9 +510,18 @@
         <div class="dashboard-details">
             <h3>Alternative Underwriting Recommendation</h3>
             <p id="tierDescription">Processing capability parameters...</p>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                <p><strong>Funding Limit:</strong> <span id="recLoanLimit">₹0</span></p>
+                <p><strong>Interest Rate:</strong> <span id="recInterestRate">0%</span></p>
+                <p><strong>Tenor:</strong> <span id="recTenor">0 Months</span></p>
+            </div>
         </div>
 
-        <button class="submit-btn" onclick="showLanding()" style="background:#444;margin-top:20px;">Return to Home</button>
+        <div style="margin-top: 25px; display: flex; gap: 10px; justify-content: center;">
+            <button class="submit-btn" id="printReportBtn" style="background:#198754; width: auto; margin-top: 0;">Print Report</button>
+            <button class="submit-btn" onclick="showLanding()" style="background:#444; width: auto; margin-top: 0;">Return to Home</button>
+        </div>
     </section>
     <!-- ================= ABOUT ================= -->
 <div id="aboutPopup" class="popup">
@@ -429,15 +607,12 @@ Instead of relying only on traditional credit history, our platform provides a c
 <span class="close" onclick="closePopup('contactPopup')">&times;</span>
 
 <h2>Contact Us</h2>
-
-<input type="text" placeholder="Your Name">
-
-<input type="email" placeholder="Email">
-
-<textarea rows="5" placeholder="Message"></textarea>
-
-<button class="submit-btn">Send</button>
-
+<form onsubmit="event.preventDefault(); alert('Message sent successfully!'); closePopup('contactPopup');">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Email" required>
+    <textarea rows="5" placeholder="Message" required></textarea>
+    <button type="submit" class="submit-btn">Send</button>
+</form>
 </div>
 
 </div>
