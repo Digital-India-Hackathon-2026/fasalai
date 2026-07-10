@@ -85,6 +85,34 @@ document.addEventListener("DOMContentLoaded", () => {
   navLoginBtn.addEventListener("click", showLogin);
   continueFarmerBtn.addEventListener("click", showLogin);
 
+  // ---------- NAV SMOOTH SCROLL ----------
+  document.querySelectorAll("nav ul a[href^='#']").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (!href || href === "#") return;
+
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      e.preventDefault();
+
+      const onAppView =
+        !loginSection.classList.contains("hidden") ||
+        !homeSection.classList.contains("hidden") ||
+        !formSection.classList.contains("hidden") ||
+        !dashboardSection.classList.contains("hidden");
+
+      if (onAppView) {
+        showLanding();
+      }
+
+      const navHeight = document.querySelector("nav").offsetHeight;
+      const top =
+        target.getBoundingClientRect().top + window.scrollY - navHeight;
+      window.scrollTo({ top, behavior: "smooth" });
+    });
+  });
+
   loginSubmitBtn.addEventListener("click", () => {
     const username = loginUsernameInput.value.trim();
     const password = loginPasswordInput.value.trim();
