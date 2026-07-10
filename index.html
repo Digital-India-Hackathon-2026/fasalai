@@ -16,11 +16,14 @@
             <img src="farmer.jpeg" alt="Logo">
             <h1>Smart Farmer</h1>
         </div>
-        <ul>
-            <li><a href="#" onclick="showLanding()">Home</a></li>
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Resources</a></li>
-        </ul>
+    
+          <ul>
+    <li><a href="#" onclick="openPopup('aboutPopup')">About</a></li>
+    <li><a href="#" onclick="openPopup('howPopup')">How It Works</a></li>
+    <li><a href="#" onclick="openPopup('faqPopup')">FAQ</a></li>
+    <li><a href="#" onclick="openPopup('contactPopup')">Contact Us</a></li>
+</ul>
+        
         <button class="login-btn" id="navLoginBtn">Login</button>
     </nav>
 
@@ -143,6 +146,102 @@
 
         <button class="submit-btn" onclick="showLanding()" style="background: #444; margin-top: 20px;">Return to Home</button>
     </section>
+    <!-- ================= ABOUT ================= -->
+<div id="aboutPopup" class="popup">
+<div class="popup-content">
+
+<span class="close" onclick="closePopup('aboutPopup')">&times;</span>
+
+<h2>About Smart Farmer Portal</h2>
+
+<p>
+Smart Farmer Portal is an AI-powered platform that evaluates farmers based on their agricultural skills, farming experience, certifications, machinery knowledge, and verified agricultural records.
+</p>
+
+<p>
+Instead of relying only on traditional credit history, our platform provides a capability-based assessment that supports fair loan decisions for both landowners and tenant farmers.
+</p>
+
+</div>
+</div>
+
+<!-- ================= HOW ================= -->
+
+<div id="howPopup" class="popup">
+
+<div class="popup-content">
+
+<span class="close" onclick="closePopup('howPopup')">&times;</span>
+
+<h2>How It Works</h2>
+
+<ol>
+
+<li>Farmer Login</li>
+
+<li>Complete Profile</li>
+
+<li>Select Agricultural Skills</li>
+
+<li>Upload Documents</li>
+
+<li>AI Calculates Capability Score</li>
+
+<li>Loan Recommendation Generated</li>
+
+</ol>
+
+</div>
+
+</div>
+
+<!-- ================= FAQ ================= -->
+
+<div id="faqPopup" class="popup">
+
+<div class="popup-content">
+
+<span class="close" onclick="closePopup('faqPopup')">&times;</span>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>Who can use this portal?</h3>
+
+<p>Both landowners and lease farmers.</p>
+
+<h3>How is capability calculated?</h3>
+
+<p>Using skills, experience, certifications and verified records.</p>
+
+<h3>Do I need collateral?</h3>
+
+<p>No. Capability matters more than credit history.</p>
+
+</div>
+
+</div>
+
+<!-- ================= CONTACT ================= -->
+
+<div id="contactPopup" class="popup">
+
+<div class="popup-content">
+
+<span class="close" onclick="closePopup('contactPopup')">&times;</span>
+
+<h2>Contact Us</h2>
+
+<input type="text" placeholder="Your Name">
+
+<input type="email" placeholder="Email">
+
+<textarea rows="5" placeholder="Message"></textarea>
+
+<button class="submit-btn">Send</button>
+
+</div>
+
+</div>
 
 </body>
 </html>
