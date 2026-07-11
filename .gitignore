@@ -1,3 +1,4 @@
-node_modules/
-supabase_test.js
+__pycache__/
+*.py[cod]
+.venv/
 .DS_Store
