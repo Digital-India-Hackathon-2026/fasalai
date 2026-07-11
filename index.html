@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Farmer Portal</title>
     <link rel="stylesheet" href="style.css">
+    <script src="i18n.js" defer></script>
     <script src="landing.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -18,10 +19,10 @@
         </div>
     
           <ul>
-            <li><a href="#about" id="navAbout">About</a></li>
-            <li><a href="#how-it-works" id="navHow">How It Works</a></li>
-            <li><a href="#faq" id="navFAQ">FAQ</a></li>
-            <li><a href="#contact" id="navContact">Contact Us</a></li>
+            <li><a href="#about" id="navAbout" data-i18n="navAbout">About</a></li>
+            <li><a href="#how-it-works" id="navHow" data-i18n="navHow">How It Works</a></li>
+            <li><a href="#faq" id="navFAQ" data-i18n="navFAQ">FAQ</a></li>
+            <li><a href="#contact" id="navContact" data-i18n="navContact">Contact Us</a></li>
         </ul>
 
         <div class="translate-box">
@@ -34,13 +35,13 @@
             </select>
         </div>
         
-        <button class="login-btn" id="navLoginBtn">Login</button>
+        <button class="login-btn" id="navLoginBtn" data-i18n="login">Login</button>
     </nav>
 
     <section class="hero" id="landing">
-        <h1 id="heroTitle">Smart Farmer Portal</h1>
-        <p id="heroLead">Empowering farmers with skill-based, collateral-free loan assessments.</p>
-        <p class="sub" id="heroSub">
+        <h1 id="heroTitle" data-i18n="heroTitle">Smart Farmer Portal</h1>
+        <p id="heroLead" data-i18n="heroLead">Empowering farmers with skill-based, collateral-free loan assessments.</p>
+        <p class="sub" id="heroSub" data-i18n="heroSub">
             By shifting focus from rigid credit histories to your real-world agricultural expertise, we unlock transparent financing for landowners and lease-takers alike.
         </p>
         <div class="buttons">
@@ -65,7 +66,7 @@
     <section id="about" class="page-section">
         <div class="section-container">
             <span class="section-tag">About Us</span>
-            <h2 id="aboutHeading">About Smart Farmer Portal</h2>
+            <h2 id="aboutHeading" data-i18n="aboutHeading">About Smart Farmer Portal</h2>
             <p class="section-lead">
                 Smart Farmer Portal is an AI-powered platform that evaluates farmers based on their agricultural skills, farming experience, certifications, machinery knowledge, and verified agricultural records.
             </p>
@@ -101,7 +102,7 @@
     <section id="how-it-works" class="page-section page-section-alt">
         <div class="section-container">
             <span class="section-tag">Process</span>
-            <h2 id="howHeading">How It Works</h2>
+            <h2 id="howHeading" data-i18n="howHeading">How It Works</h2>
             <p class="section-lead">From login to loan recommendation — a simple six-step journey designed for farmers at every experience level.</p>
 
             <div class="steps-grid">
@@ -142,7 +143,7 @@
     <section id="faq" class="page-section">
         <div class="section-container">
             <span class="section-tag">Support</span>
-            <h2 id="faqHeading">Frequently Asked Questions</h2>
+            <h2 id="faqHeading" data-i18n="faqHeading">Frequently Asked Questions</h2>
             <p class="section-lead">Answers to common questions about eligibility, scoring, documents, and loan recommendations.</p>
 
             <div class="faq-list">
@@ -177,7 +178,7 @@
     <section id="contact" class="page-section page-section-alt">
         <div class="section-container">
             <span class="section-tag">Get in Touch</span>
-            <h2 id="contactHeading">Contact Us</h2>
+            <h2 id="contactHeading" data-i18n="contactHeading">Contact Us</h2>
             <p class="section-lead">Have questions about your assessment or need help with your application? Our team is here to support you.</p>
 
             <div class="contact-layout">

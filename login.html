@@ -5,27 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Farmer Portal - Login</title>
     <link rel="stylesheet" href="style.css">
+    <script src="i18n.js" defer></script>
     <script src="login.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="login-language"><label for="languageSelect">Language</label><select id="languageSelect"><option value="en">English</option><option value="hi">हिन्दी</option><option value="te">తెలుగు</option><option value="es">Español</option></select></div>
     <section class="login-section">
         <div class="login-box">
-            <h2>Farmer Login</h2>
+            <h2 data-i18n="loginTitle">One secure login for every farmer</h2>
+            <p class="login-help" data-i18n="loginHelp">Use your mobile number to access your profile, score and privacy requests.</p>
             <div style="background: #e2efe2; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; color: #146c43; text-align: left;">
                 <strong>Demo Credentials:</strong><br>
                 Mobile/Username: <code style="font-weight: bold;">9876543210</code><br>
                 Password: <code style="font-weight: bold;">password</code>
+                <br><br><strong>Viewer demo:</strong> <code style="font-weight: bold;">9000000000</code> / <code style="font-weight: bold;">password</code>
             </div>
             <form id="loginForm" novalidate>
-                <input type="text" id="loginUsername" placeholder="Mobile Number or Username" value="9876543210" required>
-                <input type="password" id="loginPassword" placeholder="Password" value="password" required>
+                <input type="text" id="loginUsername" data-i18n-placeholder="username" placeholder="Mobile Number or Username" value="9876543210" required>
+                <input type="password" id="loginPassword" data-i18n-placeholder="password" placeholder="Password" value="password" required>
                 <p id="loginError" class="error-message hidden">Invalid credentials. Use 9876543210 / password for demo.</p>
-                <button type="submit" id="loginSubmitBtn">Login</button>
+                <button type="submit" id="loginSubmitBtn" data-i18n="login">Login</button>
             </form>
             <p style="margin-top: 16px; text-align: center;">
-                <a href="index.html" style="color: #198754; text-decoration: none;">Back to Home</a>
+                <a href="index.html" style="color: #198754; text-decoration: none;" data-i18n="backHome">Back to Home</a>
             </p>
         </div>
     </section>

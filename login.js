@@ -14,13 +14,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const username = loginUsernameInput.value.trim();
     const password = loginPasswordInput.value.trim();
 
-    if (username === "9876543210" && password === "password") {
+    const users = {
+      "9876543210": { id: "demo-farmer", name: "Demo Farmer", type: "farmer" },
+      "9000000000": { id: "network-viewer", name: "Kiran Finance", type: "viewer" },
+    };
+    if (users[username] && password === "password") {
       loginError.classList.add("hidden");
       sessionStorage.setItem("farmerAuthenticated", "true");
       sessionStorage.setItem("farmerUsername", username);
+      sessionStorage.setItem("smartFarmerUser", JSON.stringify(users[username]));
       window.location.href = "dashboard.html";
     } else {
-      loginError.textContent = "Invalid credentials. Use 9876543210 / password for demo.";
+      loginError.textContent = "Invalid credentials. Use either demo account with password 'password'.";
       loginError.classList.remove("hidden");
     }
   });
