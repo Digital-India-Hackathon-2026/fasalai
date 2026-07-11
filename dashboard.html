@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Farmer Portal - Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="dashboard.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -441,33 +442,84 @@
     </section>
 
     <section class="dashboard hidden" id="farmerDashboard">
-        <h2>Your Farmer Evaluation Profile</h2>
-        <p>Your institutional loan credibility score calculated from operational capabilities.</p>
 
-        <div class="score-container">
-            <div class="score-display">
-                <span id="scoreValue">0</span>
-                <p>Farmer Capability Score</p>
-            </div>
-            <div class="tier-badge" id="tierValue">Tier Summary</div>
+        <h2>🤖 AI Capability Dashboard</h2>
+        
+        <div class="score-grid">
+        
+        <div class="score-card">
+        
+        <h3>Capability Score</h3>
+        
+        <span id="scoreValue">0</span>
+        
         </div>
-
-        <div class="dashboard-details">
-            <h3>Alternative Underwriting Recommendation</h3>
-            <p id="tierDescription">Processing capability parameters...</p>
-
-            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                <p><strong>Funding Limit:</strong> <span id="recLoanLimit">₹0</span></p>
-                <p><strong>Interest Rate:</strong> <span id="recInterestRate">0%</span></p>
-                <p><strong>Tenor:</strong> <span id="recTenor">0 Months</span></p>
-            </div>
+        
+        <div class="score-card">
+        
+        <h3>Tier</h3>
+        
+        <span id="tierValue">Tier -</span>
+        
         </div>
-
-        <div style="margin-top: 25px; display: flex; gap: 10px; justify-content: center;">
-            <button class="submit-btn" id="printReportBtn" style="background:#198754; width: auto; margin-top: 0;">Print Report</button>
-            <button class="submit-btn" onclick="window.location.href='index.html'" style="background:#444; width: auto; margin-top: 0;">Return to Home</button>
+        
+        <div class="score-card">
+        
+        <h3>AI Confidence</h3>
+        
+        <span id="confidenceValue">97%</span>
+        
         </div>
-    </section>
+        
+        <div class="score-card">
+        
+        <h3>Risk</h3>
+        
+        <span id="riskValue">LOW</span>
+        
+        </div>
+        
+        </div>
+        
+        <h3 style="margin-top:40px">
+        
+        Capability Meter
+        
+        </h3>
+        
+        <div class="progress-bar">
+        
+        <div id="progressFill"></div>
+        
+        </div>
+        
+        <h3 style="margin-top:40px">
+        
+        Capability Breakdown
+        
+        </h3>
+        
+        <canvas id="skillPieChart"></canvas>
+        
+        <div id="analysisBox"></div>
+        
+        <div id="loanRecommendation"></div>
+        
+        <div style="margin-top:30px">
+        
+        <button
+        
+        id="printReportBtn"
+        
+        class="submit-btn">
+        
+        Download Report
+        
+        </button>
+        
+        </div>
+        
+        </section>
 
     <div id="aboutPopup" class="popup">
         <div class="popup-content">

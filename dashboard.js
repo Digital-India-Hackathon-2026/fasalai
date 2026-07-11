@@ -480,22 +480,27 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    if (currentStep === 1) {
-      if (prevBtn) prevBtn.classList.add("hidden");
-      if (nextBtn) {
-        nextBtn.classList.remove("hidden");
-        nextBtn.textContent = "Next Step";
+    if (prevBtn) {
+      prevBtn.classList.remove("hidden");
+  
+      if (currentStep === 1) {
+          prevBtn.innerHTML = "← Dashboard";
+      } else {
+          prevBtn.innerHTML = "← Previous";
       }
-      if (submitBtn) submitBtn.classList.add("hidden");
-    } else if (currentStep === 4) {
-      if (prevBtn) prevBtn.classList.remove("hidden");
+  }
+  
+  if (currentStep === 4) {
       if (nextBtn) nextBtn.classList.add("hidden");
       if (submitBtn) submitBtn.classList.remove("hidden");
-    } else {
-      if (prevBtn) prevBtn.classList.remove("hidden");
-      if (nextBtn) nextBtn.classList.remove("hidden");
+  } else {
+      if (nextBtn) {
+          nextBtn.classList.remove("hidden");
+          nextBtn.innerHTML = "Next Step";
+      }
+  
       if (submitBtn) submitBtn.classList.add("hidden");
-    }
+  }
   }
 
   function validateCurrentStep() {
@@ -652,10 +657,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
-      if (currentStep > 1) {
-        currentStep -= 1;
-        updateStepView();
+  
+      if (currentStep === 1) {
+        showHome();      // Takes user back to Farmer Dashboard
+        return;
       }
+  
+      currentStep--;
+      updateStepView();
+  
     });
   }
 
@@ -780,7 +790,78 @@ document.addEventListener("DOMContentLoaded", () => {
       const landFactor = Math.min(landSize, 10) * 0.8;
       capabilityScore += landFactor;
       capabilityScore = Math.max(0, Math.min(100, capabilityScore));
+// ==========================
+// AI Confidence
+// ==========================
 
+let confidence = Math.floor(92 + Math.random() * 7);
+
+document.getElementById("confidenceValue").innerHTML =
+confidence + "%";
+
+// ==========================
+// Risk Level
+// ==========================
+
+let risk = "";
+
+if (capabilityScore >= 80)
+    risk = "LOW";
+else if (capabilityScore >= 60)
+    risk = "MEDIUM";
+else
+    risk = "HIGH";
+
+document.getElementById("riskValue").innerHTML = risk;
+
+// ==========================
+// Progress Meter
+// ==========================
+
+document.getElementById("progressFill").style.width =
+capabilityScore + "%";
+
+// ==========================
+// AI Analysis
+// ==========================
+
+let analysis = [];
+
+if (agronomyScore >= 35)
+    analysis.push("✅ Excellent Crop Management");
+else
+    analysis.push("⚠ Improve Crop Management");
+
+if (businessScore >= 25)
+    analysis.push("✅ Financial Planning is Above Average");
+else
+    analysis.push("⚠ Improve Financial Literacy");
+
+if (machineryScore >= 15)
+    analysis.push("✅ Modern Machinery Adoption");
+else
+    analysis.push("⚠ Machinery Adoption is Low");
+
+if (ownershipType === "owner")
+    analysis.push("✅ Verified Land Ownership");
+
+if (activeCropInsurance === "Yes")
+    analysis.push("✅ Crop Insurance Verified");
+
+if (irrigationMethod === "Micro-irrigation")
+    analysis.push("✅ Sustainable Irrigation");
+
+document.getElementById("analysisBox").innerHTML = `
+
+<h3>🤖 AI Analysis</h3>
+
+<ul>
+
+${analysis.map(item => `<li>${item}</li>`).join("")}
+
+</ul>
+
+`;
       let tier = "";
       let description = "";
       let loanLimit = 0;
@@ -820,7 +901,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (recInterestRateEl) recInterestRateEl.textContent = interestRate.toFixed(1) + "%";
       if (recTenorEl) recTenorEl.textContent = tenorMonths + " Months";
 
-      showDashboard();
+      drawPieChart(
+        agronomyScore,
+        businessScore,
+        machineryScore
+    );
+    
+    showDashboard();
     });
   }
 
@@ -830,3 +917,90 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+// ====================================
+// AI PIE CHART
+// ====================================
+
+let capabilityChart = null;
+
+function drawPieChart(agronomy, business, machinery) {
+
+    const canvas = document.getElementById("skillPieChart");
+
+    if (!canvas) return;
+
+    if (capabilityChart) {
+        capabilityChart.destroy();
+    }
+
+    capabilityChart = new Chart(canvas, {
+
+        type: "pie",
+
+        data: {
+
+            labels: [
+
+                "Agronomy",
+
+                "Business",
+
+                "Machinery"
+
+            ],
+
+            datasets: [{
+
+                data: [
+
+                    agronomy,
+
+                    business,
+
+                    machinery
+
+                ],
+
+                backgroundColor: [
+
+                    "#22c55e",
+
+                    "#3b82f6",
+
+                    "#f59e0b"
+
+                ],
+
+                borderWidth:2
+
+            }]
+
+        },
+
+        options:{
+
+            responsive:true,
+
+            plugins:{
+
+                title:{
+
+                    display:true,
+
+                    text:"AI Capability Breakdown"
+
+                },
+
+                legend:{
+
+                    position:"bottom"
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
