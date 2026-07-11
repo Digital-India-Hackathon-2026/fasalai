@@ -1,0 +1,25 @@
+{
+  "name": "fasalai",
+  "version": "1.0.0",
+  "description": "Repository for Hackathon Team FasalAI.",
+  "main": "dashboard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Digital-India-Hackathon-2026/fasalai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Digital-India-Hackathon-2026/fasalai/issues"
+  },
+  "homepage": "https://github.com/Digital-India-Hackathon-2026/fasalai#readme",
+  "dependencies": {
+    "@supabase/ssr": "^0.12.0",
+    "@supabase/supabase-js": "^2.110.2"
+  }
+}
